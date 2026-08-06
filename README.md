@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # VitoCare
 
 An offline-first, community-driven healthcare platform for rural and underserved communities.
@@ -13,3 +14,6 @@ Current Milestone:
 - ⏳ Backend Development
 - ⏳ AI Integration
 - ⏳ Deployment
+=======
+# VitoCare-01
+>>>>>>> fe2a10565de2cab1921df07552af59e7e279088a
