@@ -1,11 +1,39 @@
+import { useNavigate } from 'react-router-dom'
+
 function PatientSidebar() {
+  const navigate = useNavigate()
+
   const menuItems = [
-    { icon: '⌂', label: 'Dashboard', active: true },
-    { icon: '📅', label: 'Appointments' },
-    { icon: '💊', label: 'Medicines' },
-    { icon: '📋', label: 'Prescriptions' },
-    { icon: '🤝', label: 'Volunteers' },
-    { icon: '👤', label: 'My Profile' },
+    {
+      icon: '⌂',
+      label: 'Dashboard',
+      path: '/dashboard',
+    },
+    {
+      icon: '📅',
+      label: 'Appointments',
+      path: '/appointments',
+    },
+    {
+      icon: '💊',
+      label: 'Medicines',
+      path: '/medicines',
+    },
+    {
+      icon: '📋',
+      label: 'Prescriptions',
+      path: '/prescriptions',
+    },
+    {
+      icon: '🤝',
+      label: 'Volunteers',
+      path: '/volunteers',
+    },
+    {
+      icon: '👤',
+      label: 'My Profile',
+      path: '/profile',
+    },
   ]
 
   return (
@@ -31,11 +59,8 @@ function PatientSidebar() {
           <button
             key={item.label}
             type="button"
-            className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-all ${
-              item.active
-                ? 'bg-teal-50 text-teal-700'
-                : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
-            }`}
+            onClick={() => navigate(item.path)}
+            className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 transition hover:bg-slate-50 hover:text-slate-900"
           >
             <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-white text-base shadow-sm">
               {item.icon}
