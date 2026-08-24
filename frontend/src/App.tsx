@@ -15,9 +15,12 @@ import RegisterPage from './features/auth/pages/RegisterPage'
 import PatientDashboard from './features/patient/pages/PatientDashboard'
 import AppointmentsPage from './features/patient/pages/AppointmentsPage'
 import MedicinesPage from './features/patient/pages/MedicinesPage'
+import PrescriptionsPage from './features/patient/pages/PrescriptionsPage'
+import VolunteersPage from './features/patient/pages/VolunteersPage'
+import ProfilePage from './features/patient/pages/ProfilePage'
 import SettingsPage from './features/patient/pages/SettingsPage'
 
-import { AppointmentProvider } from './features/patient/store/AppointmentContext'
+import { MedicineProvider } from './features/patient/store/MedicineContext'
 
 function LandingPage() {
   return (
@@ -41,13 +44,11 @@ function LandingPage() {
 
 function App() {
   return (
-    <BrowserRouter>
+    <MedicineProvider>
 
-      <AppointmentProvider>
+      <BrowserRouter>
 
         <Routes>
-
-          {/* Public pages */}
 
           <Route
             path="/"
@@ -63,8 +64,6 @@ function App() {
             path="/register"
             element={<RegisterPage />}
           />
-
-          {/* Patient pages */}
 
           <Route
             path="/dashboard"
@@ -82,15 +81,30 @@ function App() {
           />
 
           <Route
+            path="/prescriptions"
+            element={<PrescriptionsPage />}
+          />
+
+          <Route
+            path="/volunteers"
+            element={<VolunteersPage />}
+          />
+
+          <Route
+            path="/profile"
+            element={<ProfilePage />}
+          />
+
+          <Route
             path="/settings"
             element={<SettingsPage />}
           />
 
         </Routes>
 
-      </AppointmentProvider>
+      </BrowserRouter>
 
-    </BrowserRouter>
+    </MedicineProvider>
   )
 }
 
