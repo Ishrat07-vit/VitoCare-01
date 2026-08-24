@@ -15,6 +15,7 @@ import RegisterPage from './features/auth/pages/RegisterPage'
 import PatientDashboard from './features/patient/pages/PatientDashboard'
 import AppointmentsPage from './features/patient/pages/AppointmentsPage'
 import MedicinesPage from './features/patient/pages/MedicinesPage'
+import PrescriptionsPage from './features/patient/pages/PrescriptionsPage'
 
 function LandingPage() {
   return (
@@ -73,6 +74,11 @@ function App() {
         <Route
           path="/medicines"
           element={<MedicinesPage />}
+        />
+
+        <Route
+          path="/prescriptions"
+          element={<PrescriptionsPage />}
         />
 
       </Routes>
