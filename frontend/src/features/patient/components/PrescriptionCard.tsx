@@ -1,36 +1,47 @@
-import type { Prescription } from '../types/prescription'
+import {
+  usePrescriptions,
+  type Prescription,
+} from '../store/PrescriptionContext'
 
 interface PrescriptionCardProps {
   prescription: Prescription
-  onViewDetails: (prescription: Prescription) => void
 }
 
 function PrescriptionCard({
   prescription,
-  onViewDetails,
 }: PrescriptionCardProps) {
+  const {
+    completePrescription,
+    reactivatePrescription,
+    removePrescription,
+  } = usePrescriptions()
+
   const isActive = prescription.status === 'Active'
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:shadow-md">
-
-      {/* Header */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+    <div
+      className={`rounded-2xl border bg-white p-6 shadow-sm transition ${
+        isActive
+          ? 'border-teal-200'
+          : 'border-slate-200'
+      }`}
+    >
+      <div className="flex items-start justify-between gap-4">
 
         <div className="flex items-start gap-4">
 
-          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-teal-50 text-2xl">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-teal-50 text-2xl">
             📋
           </div>
 
           <div>
 
-            <h3 className="text-lg font-semibold text-slate-900">
-              Prescription #{prescription.id}
+            <h3 className="text-lg font-bold text-slate-900">
+              {prescription.medicineName}
             </h3>
 
-            <p className="mt-1 text-sm text-slate-500">
-              {prescription.diagnosis}
+            <p className="mt-1 text-sm font-medium text-teal-700">
+              {prescription.dosage}
             </p>
 
           </div>
@@ -38,10 +49,10 @@ function PrescriptionCard({
         </div>
 
         <span
-          className={`w-fit rounded-full px-3 py-1 text-xs font-medium ${
+          className={`rounded-full px-3 py-1 text-xs font-semibold ${
             isActive
               ? 'bg-teal-50 text-teal-700'
-              : 'bg-slate-100 text-slate-500'
+              : 'bg-slate-100 text-slate-600'
           }`}
         >
           {prescription.status}
@@ -49,110 +60,94 @@ function PrescriptionCard({
 
       </div>
 
-      {/* Doctor */}
-      <div className="mt-6 rounded-xl bg-slate-50 p-4">
-
-        <div className="flex items-center gap-3">
-
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-teal-100 font-semibold text-teal-700">
-            DR
-          </div>
-
-          <div>
-
-            <p className="text-sm font-semibold text-slate-900">
-              {prescription.doctorName}
-            </p>
-
-            <p className="text-xs text-slate-500">
-              {prescription.specialization}
-            </p>
-
-          </div>
-
-        </div>
-
-      </div>
-
-      {/* Dates */}
-      <div className="mt-5 grid gap-4 sm:grid-cols-2">
+      <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
 
         <div>
-          <p className="text-xs text-slate-500">
-            Prescribed on
+          <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+            Frequency
           </p>
 
-          <p className="mt-1 text-sm font-medium text-slate-900">
-            📅 {prescription.date}
+          <p className="mt-1 text-sm font-semibold text-slate-800">
+            {prescription.frequency}
           </p>
         </div>
 
         <div>
-          <p className="text-xs text-slate-500">
-            Valid until
+          <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+            Duration
           </p>
 
-          <p className="mt-1 text-sm font-medium text-slate-900">
-            📅 {prescription.validUntil}
+          <p className="mt-1 text-sm font-semibold text-slate-800">
+            {prescription.duration}
+          </p>
+        </div>
+
+        <div>
+          <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+            Doctor
+          </p>
+
+          <p className="mt-1 text-sm font-semibold text-slate-800">
+            {prescription.doctor}
+          </p>
+        </div>
+
+        <div>
+          <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+            Prescribed
+          </p>
+
+          <p className="mt-1 text-sm font-semibold text-slate-800">
+            {prescription.date}
           </p>
         </div>
 
       </div>
 
-      {/* Medicine preview */}
-      <div className="mt-6">
+      <div className="mt-5 rounded-xl bg-slate-50 p-4">
 
-        <p className="text-sm font-semibold text-slate-900">
-          Medicines
+        <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+          Instructions
         </p>
 
-        <div className="mt-3 space-y-2">
-
-          {prescription.medicines.slice(0, 3).map((medicine) => (
-            <div
-              key={medicine.name}
-              className="flex items-center justify-between rounded-xl border border-slate-100 px-4 py-3"
-            >
-
-              <div>
-
-                <p className="text-sm font-medium text-slate-900">
-                  {medicine.name}
-                </p>
-
-                <p className="mt-1 text-xs text-slate-500">
-                  {medicine.dosage} · {medicine.frequency}
-                </p>
-
-              </div>
-
-              <span className="text-xs text-slate-500">
-                {medicine.duration}
-              </span>
-
-            </div>
-          ))}
-
-        </div>
+        <p className="mt-1 text-sm text-slate-600">
+          {prescription.instructions}
+        </p>
 
       </div>
 
-      {/* Actions */}
-      <div className="mt-6 flex flex-wrap gap-3">
+      <div className="mt-5 flex flex-wrap gap-3 border-t border-slate-100 pt-5">
+
+        {isActive ? (
+          <button
+            type="button"
+            onClick={() =>
+              completePrescription(prescription.id)
+            }
+            className="rounded-xl bg-teal-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-teal-700"
+          >
+            ✓ Mark completed
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={() =>
+              reactivatePrescription(prescription.id)
+            }
+            className="rounded-xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
+          >
+            Reactivate
+          </button>
+        )}
 
         <button
           type="button"
-          onClick={() => onViewDetails(prescription)}
-          className="rounded-xl bg-teal-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-teal-700"
+          onClick={() =>
+            removePrescription(prescription.id)
+          }
+          className="rounded-xl px-4 py-2 text-sm font-semibold text-red-500 transition hover:bg-red-50"
         >
-          View Details
-        </button>
-
-        <button
-          type="button"
-          className="rounded-xl border border-slate-200 px-5 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
-        >
-          ↓ Download
+          Remove
         </button>
 
       </div>

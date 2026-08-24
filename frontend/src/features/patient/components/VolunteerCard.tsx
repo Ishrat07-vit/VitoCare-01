@@ -1,40 +1,46 @@
-import type { Volunteer } from '../types/volunteer'
+import {
+  useVolunteers,
+  type VolunteerRequest,
+} from '../store/VolunteerContext'
 
 interface VolunteerCardProps {
-  volunteer: Volunteer
-  onRequest: (volunteer: Volunteer) => void
+  request: VolunteerRequest
 }
 
 function VolunteerCard({
-  volunteer,
-  onRequest,
+  request,
 }: VolunteerCardProps) {
-  const isAvailable = volunteer.availability === 'Available'
+  const {
+    acceptRequest,
+    completeRequest,
+    cancelRequest,
+  } = useVolunteers()
+
+  const statusStyles = {
+    Pending: 'bg-amber-50 text-amber-700',
+    Accepted: 'bg-teal-50 text-teal-700',
+    Completed: 'bg-slate-100 text-slate-600',
+  }
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:shadow-md">
+    <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
 
-      {/* Volunteer header */}
       <div className="flex items-start justify-between gap-4">
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-start gap-4">
 
-          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-teal-100 text-lg font-bold text-teal-700">
-            {volunteer.name
-              .split(' ')
-              .map((name) => name[0])
-              .join('')
-              .slice(0, 2)}
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-teal-50 text-2xl">
+            🤝
           </div>
 
           <div>
 
-            <h3 className="font-semibold text-slate-900">
-              {volunteer.name}
+            <h3 className="text-lg font-bold text-slate-900">
+              {request.type}
             </h3>
 
             <p className="mt-1 text-sm text-slate-500">
-              📍 {volunteer.area}
+              Requested on {request.date}
             </p>
 
           </div>
@@ -42,98 +48,84 @@ function VolunteerCard({
         </div>
 
         <span
-          className={`rounded-full px-3 py-1 text-xs font-medium ${
-            isAvailable
-              ? 'bg-teal-50 text-teal-700'
-              : 'bg-yellow-50 text-yellow-700'
-          }`}
+          className={`rounded-full px-3 py-1 text-xs font-semibold ${statusStyles[request.status]}`}
         >
-          {volunteer.availability}
+          {request.status}
         </span>
 
       </div>
 
-      {/* Volunteer details */}
-      <div className="mt-6 grid grid-cols-2 gap-4">
+      <div className="mt-6 grid gap-4 sm:grid-cols-2">
 
-        <div className="rounded-xl bg-slate-50 p-4">
+        <div>
 
-          <p className="text-xs text-slate-500">
-            Distance
+          <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+            Location
           </p>
 
-          <p className="mt-1 text-sm font-semibold text-slate-900">
-            📍 {volunteer.distance}
-          </p>
-
-        </div>
-
-        <div className="rounded-xl bg-slate-50 p-4">
-
-          <p className="text-xs text-slate-500">
-            Rating
-          </p>
-
-          <p className="mt-1 text-sm font-semibold text-slate-900">
-            ⭐ {volunteer.rating.toFixed(1)}
+          <p className="mt-1 text-sm font-semibold text-slate-800">
+            {request.location}
           </p>
 
         </div>
 
-      </div>
+        <div>
 
-      {/* Skills */}
-      <div className="mt-5">
+          <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+            Volunteer
+          </p>
 
-        <p className="text-xs font-medium text-slate-500">
-          Helps with
-        </p>
-
-        <div className="mt-2 flex flex-wrap gap-2">
-
-          {volunteer.skills.map((skill) => (
-            <span
-              key={skill}
-              className="rounded-lg bg-teal-50 px-3 py-1.5 text-xs font-medium text-teal-700"
-            >
-              {skill}
-            </span>
-          ))}
+          <p className="mt-1 text-sm font-semibold text-slate-800">
+            {request.volunteerName || 'Waiting for volunteer'}
+          </p>
 
         </div>
 
       </div>
 
-      {/* Completed requests */}
-      <div className="mt-5">
+      <div className="mt-5 rounded-xl bg-slate-50 p-4">
 
-        <p className="text-xs text-slate-500">
-          Completed assistance requests
+        <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+          Request details
         </p>
 
-        <p className="mt-1 text-sm font-semibold text-slate-900">
-          {volunteer.completedRequests} requests
+        <p className="mt-1 text-sm leading-6 text-slate-600">
+          {request.description}
         </p>
 
       </div>
 
-      {/* Request button */}
-      <div className="mt-6">
+      <div className="mt-5 flex flex-wrap gap-3 border-t border-slate-100 pt-5">
 
-        <button
-          type="button"
-          disabled={!isAvailable}
-          onClick={() => onRequest(volunteer)}
-          className={`w-full rounded-xl px-5 py-3 text-sm font-semibold transition ${
-            isAvailable
-              ? 'bg-teal-600 text-white hover:bg-teal-700'
-              : 'cursor-not-allowed bg-slate-100 text-slate-400'
-          }`}
-        >
-          {isAvailable
-            ? 'Request Assistance'
-            : 'Currently Unavailable'}
-        </button>
+        {request.status === 'Pending' && (
+          <button
+            type="button"
+            onClick={() => acceptRequest(request.id)}
+            className="rounded-xl bg-teal-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-teal-700"
+          >
+            Accept volunteer
+          </button>
+        )}
+
+        {request.status === 'Accepted' && (
+          <button
+            type="button"
+            onClick={() => completeRequest(request.id)}
+            className="rounded-xl bg-teal-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-teal-700"
+          >
+            ✓ Mark completed
+          </button>
+        )}
+
+        {request.status !== 'Completed' && (
+          <button
+            type="button"
+            onClick={() => cancelRequest(request.id)}
+            className="rounded-xl px-4 py-2 text-sm font-semibold text-red-500 transition hover:bg-red-50"
+          >
+            Cancel request
+          </button>
+        )}
 
       </div>
 
