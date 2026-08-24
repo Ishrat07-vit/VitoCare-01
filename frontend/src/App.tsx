@@ -17,6 +17,7 @@ import AppointmentsPage from './features/patient/pages/AppointmentsPage'
 import MedicinesPage from './features/patient/pages/MedicinesPage'
 import PrescriptionsPage from './features/patient/pages/PrescriptionsPage'
 import VolunteersPage from './features/patient/pages/VolunteersPage'
+import ProfilePage from './features/patient/pages/ProfilePage'
 
 function LandingPage() {
   return (
@@ -85,6 +86,11 @@ function App() {
         <Route
           path="/volunteers"
           element={<VolunteersPage />}
+        />
+
+        <Route
+          path="/profile"
+          element={<ProfilePage />}
         />
 
       </Routes>
