@@ -18,6 +18,7 @@ import MedicinesPage from './features/patient/pages/MedicinesPage'
 import PrescriptionsPage from './features/patient/pages/PrescriptionsPage'
 import VolunteersPage from './features/patient/pages/VolunteersPage'
 import ProfilePage from './features/patient/pages/ProfilePage'
+import NotificationsPage from './features/patient/pages/NotificationsPage'
 
 function LandingPage() {
   return (
@@ -91,6 +92,11 @@ function App() {
         <Route
           path="/profile"
           element={<ProfilePage />}
+        />
+
+        <Route
+          path="/notifications"
+          element={<NotificationsPage />}
         />
 
       </Routes>
