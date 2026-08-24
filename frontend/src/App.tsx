@@ -1,0 +1,62 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+
+import Navbar from './components/navigation/Navbar'
+
+import HeroSection from './features/landing/HeroSection'
+import FeaturesSection from './features/landing/FeaturesSection'
+import HowItWorksSection from './features/landing/HowItWorksSection'
+import UserRolesSection from './features/landing/UserRolesSection'
+import CTASection from './features/landing/CTASection'
+import Footer from './features/landing/Footer'
+
+import LoginPage from './features/auth/pages/LoginPage'
+import RegisterPage from './features/auth/pages/RegisterPage'
+
+function LandingPage() {
+  return (
+    <div className="min-h-screen bg-slate-50">
+
+      <Navbar />
+
+      <main>
+        <HeroSection />
+        <FeaturesSection />
+        <HowItWorksSection />
+        <UserRolesSection />
+        <CTASection />
+      </main>
+
+      <Footer />
+
+    </div>
+  )
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+
+      <Routes>
+
+        <Route
+          path="/"
+          element={<LandingPage />}
+        />
+
+        <Route
+          path="/login"
+          element={<LoginPage />}
+        />
+
+        <Route
+          path="/register"
+          element={<RegisterPage />}
+        />
+
+      </Routes>
+
+    </BrowserRouter>
+  )
+}
+
+export default App
