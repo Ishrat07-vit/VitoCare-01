@@ -1,15 +1,64 @@
 import { useState } from 'react'
+import { useAppointments } from '../store/AppointmentContext'
 
 function AppointmentBooking() {
+  const { addAppointment } = useAppointments()
+
   const [doctor, setDoctor] = useState('')
   const [date, setDate] = useState('')
   const [time, setTime] = useState('')
   const [reason, setReason] = useState('')
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const [success, setSuccess] = useState(false)
+
+  const handleSubmit = (
+    event: React.FormEvent<HTMLFormElement>
+  ) => {
     event.preventDefault()
 
-    alert('Appointment request submitted successfully!')
+    const selectedDoctor =
+      doctor === 'Dr. Rajesh Kumar'
+        ? {
+            specialty: 'General Physician',
+            location: 'VitoCare Community Clinic',
+          }
+        : doctor === 'Dr. Priya Sharma'
+          ? {
+              specialty: 'Family Medicine',
+              location: 'VitoCare Community Clinic',
+            }
+          : {
+              specialty: 'Internal Medicine',
+              location: 'Rural Health Centre',
+            }
+
+    const formattedDate = new Date(date).toLocaleDateString(
+      'en-US',
+      {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+      }
+    )
+
+    addAppointment({
+      doctor,
+      specialty: selectedDoctor.specialty,
+      date: formattedDate,
+      time,
+      location: selectedDoctor.location,
+      reason,
+    })
+
+    setDoctor('')
+    setDate('')
+    setTime('')
+    setReason('')
+    setSuccess(true)
+
+    setTimeout(() => {
+      setSuccess(false)
+    }, 4000)
   }
 
   return (
@@ -31,12 +80,27 @@ function AppointmentBooking() {
 
       </div>
 
+      {success && (
+        <div className="mb-6 rounded-xl border border-teal-200 bg-teal-50 p-4">
+
+          <p className="font-semibold text-teal-800">
+            Appointment booked successfully! 🎉
+          </p>
+
+          <p className="mt-1 text-sm text-teal-700">
+            Your appointment has been added to your upcoming appointments.
+          </p>
+
+        </div>
+      )}
+
       <form
         onSubmit={handleSubmit}
         className="space-y-5"
       >
 
         {/* Doctor */}
+
         <div>
 
           <label
@@ -49,10 +113,13 @@ function AppointmentBooking() {
           <select
             id="doctor"
             value={doctor}
-            onChange={(event) => setDoctor(event.target.value)}
+            onChange={(event) =>
+              setDoctor(event.target.value)
+            }
             required
             className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-teal-500 focus:ring-2 focus:ring-teal-100"
           >
+
             <option value="">
               Choose a doctor
             </option>
@@ -74,6 +141,7 @@ function AppointmentBooking() {
         </div>
 
         {/* Date */}
+
         <div>
 
           <label
@@ -87,14 +155,18 @@ function AppointmentBooking() {
             id="appointment-date"
             type="date"
             value={date}
-            onChange={(event) => setDate(event.target.value)}
+            onChange={(event) =>
+              setDate(event.target.value)
+            }
             required
+            min="2026-08-24"
             className="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-teal-500 focus:ring-2 focus:ring-teal-100"
           />
 
         </div>
 
         {/* Time */}
+
         <div>
 
           <label
@@ -107,10 +179,13 @@ function AppointmentBooking() {
           <select
             id="appointment-time"
             value={time}
-            onChange={(event) => setTime(event.target.value)}
+            onChange={(event) =>
+              setTime(event.target.value)
+            }
             required
             className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-teal-500 focus:ring-2 focus:ring-teal-100"
           >
+
             <option value="">
               Choose a time
             </option>
@@ -140,6 +215,7 @@ function AppointmentBooking() {
         </div>
 
         {/* Reason */}
+
         <div>
 
           <label
@@ -152,7 +228,9 @@ function AppointmentBooking() {
           <textarea
             id="reason"
             value={reason}
-            onChange={(event) => setReason(event.target.value)}
+            onChange={(event) =>
+              setReason(event.target.value)
+            }
             rows={4}
             placeholder="Briefly describe your reason for consultation..."
             className="mt-2 w-full resize-none rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-teal-500 focus:ring-2 focus:ring-teal-100"

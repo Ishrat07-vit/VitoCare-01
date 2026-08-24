@@ -1,4 +1,7 @@
+import { useAppointments } from '../store/AppointmentContext'
+
 interface AppointmentCardProps {
+  id?: number
   doctor: string
   specialty: string
   date: string
@@ -9,6 +12,7 @@ interface AppointmentCardProps {
 }
 
 function AppointmentCard({
+  id,
   doctor,
   specialty,
   date,
@@ -17,6 +21,21 @@ function AppointmentCard({
   status,
   upcoming = false,
 }: AppointmentCardProps) {
+
+  const { cancelAppointment } = useAppointments()
+
+  const handleCancel = () => {
+    if (!id) return
+
+    const confirmed = window.confirm(
+      'Are you sure you want to cancel this appointment?'
+    )
+
+    if (confirmed) {
+      cancelAppointment(id)
+    }
+  }
+
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
 
@@ -72,7 +91,7 @@ function AppointmentCard({
 
       </div>
 
-      {upcoming && (
+      {upcoming && status === 'Confirmed' && (
         <div className="mt-5 flex flex-col gap-3 border-t border-slate-100 pt-5 sm:flex-row">
 
           <button
@@ -84,6 +103,7 @@ function AppointmentCard({
 
           <button
             type="button"
+            onClick={handleCancel}
             className="rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
           >
             Cancel appointment

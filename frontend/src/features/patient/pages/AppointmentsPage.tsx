@@ -5,10 +5,24 @@ import PatientHeader from '../components/PatientHeader'
 
 import AppointmentCard from '../components/AppointmentCard'
 import AppointmentBooking from '../components/AppointmentBooking'
-import AppointmentHistory from '../components/AppointmentHistory'
+
+import { useAppointments } from '../store/AppointmentContext'
 
 function AppointmentsPage() {
+
   const [showBooking, setShowBooking] = useState(false)
+
+  const { appointments } = useAppointments()
+
+  const upcomingAppointments = appointments.filter(
+    (appointment) =>
+      appointment.status === 'Confirmed'
+  )
+
+  const pastAppointments = appointments.filter(
+    (appointment) =>
+      appointment.status !== 'Confirmed'
+  )
 
   return (
     <div className="flex min-h-screen bg-slate-50">
@@ -23,7 +37,8 @@ function AppointmentsPage() {
 
           <div className="mx-auto max-w-6xl">
 
-            {/* Heading */}
+            {/* Header */}
+
             <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
 
               <div>
@@ -44,7 +59,9 @@ function AppointmentsPage() {
 
               <button
                 type="button"
-                onClick={() => setShowBooking(!showBooking)}
+                onClick={() =>
+                  setShowBooking(!showBooking)
+                }
                 className="rounded-xl bg-teal-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-teal-700"
               >
                 {showBooking
@@ -55,6 +72,7 @@ function AppointmentsPage() {
             </div>
 
             {/* Booking */}
+
             {showBooking && (
               <div className="mt-8">
 
@@ -64,6 +82,7 @@ function AppointmentsPage() {
             )}
 
             {/* Upcoming */}
+
             <section className="mt-8">
 
               <div className="mb-5">
@@ -73,28 +92,109 @@ function AppointmentsPage() {
                 </p>
 
                 <h2 className="mt-1 text-xl font-bold text-slate-900">
-                  Your next appointment
+                  Your appointments
                 </h2>
 
               </div>
 
-              <AppointmentCard
-                doctor="Dr. Rajesh Kumar"
-                specialty="General Physician"
-                date="August 25, 2026"
-                time="10:30 AM"
-                location="VitoCare Community Clinic"
-                status="Confirmed"
-                upcoming
-              />
+              {upcomingAppointments.length > 0 ? (
+
+                <div className="space-y-4">
+
+                  {upcomingAppointments.map(
+                    (appointment) => (
+
+                      <AppointmentCard
+                        key={appointment.id}
+                        id={appointment.id}
+                        doctor={appointment.doctor}
+                        specialty={appointment.specialty}
+                        date={appointment.date}
+                        time={appointment.time}
+                        location={appointment.location}
+                        status={appointment.status}
+                        upcoming
+                      />
+
+                    )
+                  )}
+
+                </div>
+
+              ) : (
+
+                <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-center">
+
+                  <div className="text-4xl">
+                    📅
+                  </div>
+
+                  <h3 className="mt-4 font-semibold text-slate-900">
+                    No upcoming appointments
+                  </h3>
+
+                  <p className="mt-1 text-sm text-slate-500">
+                    Book an appointment when you need medical care.
+                  </p>
+
+                </div>
+
+              )}
 
             </section>
 
-            {/* Empty divider / info */}
+            {/* Divider */}
+
             <div className="my-10 border-t border-slate-200" />
 
             {/* History */}
-            <AppointmentHistory />
+
+            <section>
+
+              <div className="mb-5">
+
+                <p className="text-sm font-medium text-slate-500">
+                  Your records
+                </p>
+
+                <h2 className="mt-1 text-xl font-bold text-slate-900">
+                  Appointment history
+                </h2>
+
+              </div>
+
+              {pastAppointments.length > 0 ? (
+
+                <div className="space-y-4">
+
+                  {pastAppointments.map(
+                    (appointment) => (
+
+                      <AppointmentCard
+                        key={appointment.id}
+                        id={appointment.id}
+                        doctor={appointment.doctor}
+                        specialty={appointment.specialty}
+                        date={appointment.date}
+                        time={appointment.time}
+                        location={appointment.location}
+                        status={appointment.status}
+                      />
+
+                    )
+                  )}
+
+                </div>
+
+              ) : (
+
+                <div className="rounded-2xl bg-white p-8 text-center text-sm text-slate-500">
+                  No previous appointments.
+                </div>
+
+              )}
+
+            </section>
 
           </div>
 

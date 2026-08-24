@@ -15,11 +15,9 @@ import RegisterPage from './features/auth/pages/RegisterPage'
 import PatientDashboard from './features/patient/pages/PatientDashboard'
 import AppointmentsPage from './features/patient/pages/AppointmentsPage'
 import MedicinesPage from './features/patient/pages/MedicinesPage'
-import PrescriptionsPage from './features/patient/pages/PrescriptionsPage'
-import VolunteersPage from './features/patient/pages/VolunteersPage'
-import ProfilePage from './features/patient/pages/ProfilePage'
-import NotificationsPage from './features/patient/pages/NotificationsPage'
 import SettingsPage from './features/patient/pages/SettingsPage'
+
+import { AppointmentProvider } from './features/patient/store/AppointmentContext'
 
 function LandingPage() {
   return (
@@ -45,67 +43,52 @@ function App() {
   return (
     <BrowserRouter>
 
-      <Routes>
+      <AppointmentProvider>
 
-        {/* Landing */}
-        <Route
-          path="/"
-          element={<LandingPage />}
-        />
+        <Routes>
 
-        {/* Authentication */}
-        <Route
-          path="/login"
-          element={<LoginPage />}
-        />
+          {/* Public pages */}
 
-        <Route
-          path="/register"
-          element={<RegisterPage />}
-        />
+          <Route
+            path="/"
+            element={<LandingPage />}
+          />
 
-        {/* Patient Portal */}
-        <Route
-          path="/dashboard"
-          element={<PatientDashboard />}
-        />
+          <Route
+            path="/login"
+            element={<LoginPage />}
+          />
 
-        <Route
-          path="/appointments"
-          element={<AppointmentsPage />}
-        />
+          <Route
+            path="/register"
+            element={<RegisterPage />}
+          />
 
-        <Route
-          path="/medicines"
-          element={<MedicinesPage />}
-        />
+          {/* Patient pages */}
 
-        <Route
-          path="/prescriptions"
-          element={<PrescriptionsPage />}
-        />
+          <Route
+            path="/dashboard"
+            element={<PatientDashboard />}
+          />
 
-        <Route
-          path="/volunteers"
-          element={<VolunteersPage />}
-        />
+          <Route
+            path="/appointments"
+            element={<AppointmentsPage />}
+          />
 
-        <Route
-          path="/profile"
-          element={<ProfilePage />}
-        />
+          <Route
+            path="/medicines"
+            element={<MedicinesPage />}
+          />
 
-        <Route
-          path="/notifications"
-          element={<NotificationsPage />}
-        />
+          <Route
+            path="/settings"
+            element={<SettingsPage />}
+          />
 
-        <Route
-          path="/settings"
-          element={<SettingsPage />}
-        />
+        </Routes>
 
-      </Routes>
+      </AppointmentProvider>
 
     </BrowserRouter>
   )
