@@ -19,6 +19,7 @@ import PrescriptionsPage from './features/patient/pages/PrescriptionsPage'
 import VolunteersPage from './features/patient/pages/VolunteersPage'
 import ProfilePage from './features/patient/pages/ProfilePage'
 import NotificationsPage from './features/patient/pages/NotificationsPage'
+import SettingsPage from './features/patient/pages/SettingsPage'
 
 function LandingPage() {
   return (
@@ -97,6 +98,11 @@ function App() {
         <Route
           path="/notifications"
           element={<NotificationsPage />}
+        />
+
+        <Route
+          path="/settings"
+          element={<SettingsPage />}
         />
 
       </Routes>

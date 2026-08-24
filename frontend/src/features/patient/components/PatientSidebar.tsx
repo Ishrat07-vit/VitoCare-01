@@ -42,7 +42,13 @@ function PatientSidebar() {
 
       {/* Logo */}
       <div className="flex h-20 items-center border-b border-slate-100 px-6">
-        <div>
+
+        <button
+          type="button"
+          onClick={() => navigate('/dashboard')}
+          className="text-left"
+        >
+
           <h1 className="text-2xl font-bold text-teal-700">
             VitoCare
           </h1>
@@ -50,22 +56,25 @@ function PatientSidebar() {
           <p className="text-xs text-slate-400">
             Patient Portal
           </p>
-        </div>
+
+        </button>
+
       </div>
 
       {/* Navigation */}
       <nav className="flex-1 space-y-2 p-4">
 
         {menuItems.map((item) => {
-          const isActive = location.pathname === item.path
+
+          const active = location.pathname === item.path
 
           return (
             <button
-              key={item.label}
+              key={item.path}
               type="button"
               onClick={() => navigate(item.path)}
               className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-all ${
-                isActive
+                active
                   ? 'bg-teal-50 text-teal-700'
                   : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
               }`}
@@ -73,7 +82,7 @@ function PatientSidebar() {
 
               <span
                 className={`flex h-8 w-8 items-center justify-center rounded-lg text-base shadow-sm ${
-                  isActive
+                  active
                     ? 'bg-white'
                     : 'bg-white'
                 }`}
@@ -92,14 +101,35 @@ function PatientSidebar() {
       {/* Bottom */}
       <div className="border-t border-slate-100 p-4">
 
+        {/* Notifications */}
         <button
           type="button"
-          className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 transition hover:bg-slate-50"
+          onClick={() => navigate('/notifications')}
+          className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition ${
+            location.pathname === '/notifications'
+              ? 'bg-teal-50 text-teal-700'
+              : 'text-slate-600 hover:bg-slate-50'
+          }`}
+        >
+          <span>🔔</span>
+          Notifications
+        </button>
+
+        {/* Settings */}
+        <button
+          type="button"
+          onClick={() => navigate('/settings')}
+          className={`mt-2 flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition ${
+            location.pathname === '/settings'
+              ? 'bg-teal-50 text-teal-700'
+              : 'text-slate-600 hover:bg-slate-50'
+          }`}
         >
           <span>⚙️</span>
           Settings
         </button>
 
+        {/* Sign out */}
         <button
           type="button"
           className="mt-2 flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-red-500 transition hover:bg-red-50"
