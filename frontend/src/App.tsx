@@ -14,6 +14,7 @@ import RegisterPage from './features/auth/pages/RegisterPage'
 
 import PatientDashboard from './features/patient/pages/PatientDashboard'
 import AppointmentsPage from './features/patient/pages/AppointmentsPage'
+import MedicinesPage from './features/patient/pages/MedicinesPage'
 
 function LandingPage() {
   return (
@@ -41,11 +42,13 @@ function App() {
 
       <Routes>
 
+        {/* Landing */}
         <Route
           path="/"
           element={<LandingPage />}
         />
 
+        {/* Authentication */}
         <Route
           path="/login"
           element={<LoginPage />}
@@ -56,6 +59,7 @@ function App() {
           element={<RegisterPage />}
         />
 
+        {/* Patient Portal */}
         <Route
           path="/dashboard"
           element={<PatientDashboard />}
@@ -64,6 +68,11 @@ function App() {
         <Route
           path="/appointments"
           element={<AppointmentsPage />}
+        />
+
+        <Route
+          path="/medicines"
+          element={<MedicinesPage />}
         />
 
       </Routes>
