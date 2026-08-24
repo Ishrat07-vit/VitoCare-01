@@ -16,6 +16,7 @@ import PatientDashboard from './features/patient/pages/PatientDashboard'
 import AppointmentsPage from './features/patient/pages/AppointmentsPage'
 import MedicinesPage from './features/patient/pages/MedicinesPage'
 import PrescriptionsPage from './features/patient/pages/PrescriptionsPage'
+import VolunteersPage from './features/patient/pages/VolunteersPage'
 
 function LandingPage() {
   return (
@@ -79,6 +80,11 @@ function App() {
         <Route
           path="/prescriptions"
           element={<PrescriptionsPage />}
+        />
+
+        <Route
+          path="/volunteers"
+          element={<VolunteersPage />}
         />
 
       </Routes>
