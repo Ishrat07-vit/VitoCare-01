@@ -17,11 +17,10 @@ import AppointmentsPage from './features/patient/pages/AppointmentsPage'
 import MedicinesPage from './features/patient/pages/MedicinesPage'
 import PrescriptionsPage from './features/patient/pages/PrescriptionsPage'
 import VolunteersPage from './features/patient/pages/VolunteersPage'
+import ProfilePage from './features/patient/pages/ProfilePage'
 import SettingsPage from './features/patient/pages/SettingsPage'
+import NotificationsPage from './features/patient/pages/NotificationsPage'
 
-import { MedicineProvider } from './features/patient/store/MedicineContext'
-import { PrescriptionProvider } from './features/patient/store/PrescriptionContext'
-import { VolunteerProvider } from './features/patient/store/VolunteerContext'
 
 function LandingPage() {
   return (
@@ -43,73 +42,76 @@ function LandingPage() {
   )
 }
 
+
 function App() {
   return (
-    <MedicineProvider>
+    <BrowserRouter>
 
-      <PrescriptionProvider>
+      <Routes>
 
-        <VolunteerProvider>
+        {/* Landing Page */}
+        <Route
+          path="/"
+          element={<LandingPage />}
+        />
 
-          <BrowserRouter>
+        {/* Authentication */}
+        <Route
+          path="/login"
+          element={<LoginPage />}
+        />
 
-            <Routes>
+        <Route
+          path="/register"
+          element={<RegisterPage />}
+        />
 
-              <Route
-                path="/"
-                element={<LandingPage />}
-              />
+        {/* Patient Portal */}
+        <Route
+          path="/dashboard"
+          element={<PatientDashboard />}
+        />
 
-              <Route
-                path="/login"
-                element={<LoginPage />}
-              />
+        <Route
+          path="/appointments"
+          element={<AppointmentsPage />}
+        />
 
-              <Route
-                path="/register"
-                element={<RegisterPage />}
-              />
+        <Route
+          path="/medicines"
+          element={<MedicinesPage />}
+        />
 
-              <Route
-                path="/dashboard"
-                element={<PatientDashboard />}
-              />
+        <Route
+          path="/prescriptions"
+          element={<PrescriptionsPage />}
+        />
 
-              <Route
-                path="/appointments"
-                element={<AppointmentsPage />}
-              />
+        <Route
+          path="/volunteers"
+          element={<VolunteersPage />}
+        />
 
-              <Route
-                path="/medicines"
-                element={<MedicinesPage />}
-              />
+        <Route
+          path="/profile"
+          element={<ProfilePage />}
+        />
 
-              <Route
-                path="/prescriptions"
-                element={<PrescriptionsPage />}
-              />
+        <Route
+          path="/settings"
+          element={<SettingsPage />}
+        />
 
-              <Route
-                path="/volunteers"
-                element={<VolunteersPage />}
-              />
+        <Route
+          path="/notifications"
+          element={<NotificationsPage />}
+        />
 
-              <Route
-                path="/settings"
-                element={<SettingsPage />}
-              />
+      </Routes>
 
-            </Routes>
-
-          </BrowserRouter>
-
-        </VolunteerProvider>
-
-      </PrescriptionProvider>
-
-    </MedicineProvider>
+    </BrowserRouter>
   )
 }
+
 
 export default App

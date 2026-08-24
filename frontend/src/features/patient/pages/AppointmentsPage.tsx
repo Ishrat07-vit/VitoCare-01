@@ -1,206 +1,324 @@
-import { useState } from 'react'
-
-import PatientSidebar from '../components/PatientSidebar'
-import PatientHeader from '../components/PatientHeader'
-
-import AppointmentCard from '../components/AppointmentCard'
-import AppointmentBooking from '../components/AppointmentBooking'
-
-import { useAppointments } from '../store/AppointmentContext'
-
 function AppointmentsPage() {
-
-  const [showBooking, setShowBooking] = useState(false)
-
-  const { appointments } = useAppointments()
-
-  const upcomingAppointments = appointments.filter(
-    (appointment) =>
-      appointment.status === 'Confirmed'
-  )
-
-  const pastAppointments = appointments.filter(
-    (appointment) =>
-      appointment.status !== 'Confirmed'
-  )
-
   return (
-    <div className="flex min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-50">
 
-      <PatientSidebar />
+      {/* Header */}
+      <header className="flex h-20 items-center justify-between border-b border-slate-200 bg-white px-6 lg:px-8">
 
-      <div className="flex min-w-0 flex-1 flex-col">
+        <div>
+          <h1 className="text-2xl font-bold text-teal-700">
+            VitoCare
+          </h1>
 
-        <PatientHeader />
+          <p className="text-xs text-slate-400">
+            Patient Portal
+          </p>
+        </div>
 
-        <main className="flex-1 p-6 lg:p-8">
+        <div className="flex items-center gap-3">
 
-          <div className="mx-auto max-w-6xl">
+          <button
+            type="button"
+            className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white"
+          >
+            🔔
+          </button>
 
-            {/* Header */}
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-teal-100 font-bold text-teal-700">
+            I
+          </div>
 
-            <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+        </div>
 
-              <div>
+      </header>
 
-                <p className="text-sm font-medium text-teal-700">
-                  Healthcare visits
-                </p>
+      {/* Main */}
+      <main className="p-6 lg:p-8">
 
-                <h1 className="mt-2 text-3xl font-bold tracking-tight text-slate-900">
-                  Appointments
-                </h1>
+        <div className="mx-auto max-w-7xl">
 
-                <p className="mt-2 text-slate-600">
-                  Manage your upcoming and previous healthcare appointments.
-                </p>
+          {/* Page Heading */}
+          <div>
 
-              </div>
+            <p className="text-sm font-medium text-teal-700">
+              Patient Portal
+            </p>
 
-              <button
-                type="button"
-                onClick={() =>
-                  setShowBooking(!showBooking)
-                }
-                className="rounded-xl bg-teal-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-teal-700"
-              >
-                {showBooking
-                  ? 'Close booking'
-                  : '+ Book appointment'}
-              </button>
+            <h1 className="mt-2 text-3xl font-bold tracking-tight text-slate-900">
+              My Appointments
+            </h1>
+
+            <p className="mt-2 text-slate-600">
+              View and manage your upcoming healthcare appointments.
+            </p>
+
+          </div>
+
+          {/* Summary */}
+          <div className="mt-8 grid gap-5 md:grid-cols-3">
+
+            {/* Upcoming */}
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+
+              <p className="text-sm text-slate-500">
+                Upcoming appointments
+              </p>
+
+              <p className="mt-3 text-3xl font-bold text-slate-900">
+                1
+              </p>
+
+              <p className="mt-2 text-sm text-teal-700">
+                Scheduled
+              </p>
 
             </div>
 
-            {/* Booking */}
+            {/* Next Appointment */}
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
 
-            {showBooking && (
-              <div className="mt-8">
+              <p className="text-sm text-slate-500">
+                Next appointment
+              </p>
 
-                <AppointmentBooking />
+              <p className="mt-3 text-3xl font-bold text-teal-700">
+                Tomorrow
+              </p>
 
-              </div>
-            )}
+              <p className="mt-2 text-sm text-slate-500">
+                10:30 AM
+              </p>
 
-            {/* Upcoming */}
+            </div>
 
-            <section className="mt-8">
+            {/* Completed */}
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
 
-              <div className="mb-5">
+              <p className="text-sm text-slate-500">
+                Completed
+              </p>
 
-                <p className="text-sm font-medium text-teal-700">
-                  Upcoming
-                </p>
+              <p className="mt-3 text-3xl font-bold text-slate-900">
+                3
+              </p>
 
-                <h2 className="mt-1 text-xl font-bold text-slate-900">
-                  Your appointments
-                </h2>
+              <p className="mt-2 text-sm text-slate-500">
+                Previous appointments
+              </p>
 
-              </div>
+            </div>
 
-              {upcomingAppointments.length > 0 ? (
+          </div>
 
-                <div className="space-y-4">
+          {/* Upcoming Appointment */}
+          <section className="mt-8">
 
-                  {upcomingAppointments.map(
-                    (appointment) => (
+            <h2 className="text-xl font-bold text-slate-900">
+              Upcoming appointment
+            </h2>
 
-                      <AppointmentCard
-                        key={appointment.id}
-                        id={appointment.id}
-                        doctor={appointment.doctor}
-                        specialty={appointment.specialty}
-                        date={appointment.date}
-                        time={appointment.time}
-                        location={appointment.location}
-                        status={appointment.status}
-                        upcoming
-                      />
+            <div className="mt-5 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
 
-                    )
-                  )}
+              <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
 
-                </div>
+                <div className="flex items-start gap-4">
 
-              ) : (
-
-                <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-center">
-
-                  <div className="text-4xl">
+                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-2xl">
                     📅
                   </div>
 
-                  <h3 className="mt-4 font-semibold text-slate-900">
-                    No upcoming appointments
-                  </h3>
+                  <div>
 
-                  <p className="mt-1 text-sm text-slate-500">
-                    Book an appointment when you need medical care.
+                    <div className="flex flex-wrap items-center gap-3">
+
+                      <h3 className="text-lg font-semibold text-slate-900">
+                        General Consultation
+                      </h3>
+
+                      <span className="rounded-full bg-green-50 px-3 py-1 text-xs font-medium text-green-700">
+                        Confirmed
+                      </span>
+
+                    </div>
+
+                    <p className="mt-1 text-sm text-slate-500">
+                      Dr. Ananya Sharma
+                    </p>
+
+                    <div className="mt-4 flex flex-wrap gap-6">
+
+                      <div>
+                        <p className="text-xs text-slate-400">
+                          Date
+                        </p>
+
+                        <p className="mt-1 text-sm font-semibold text-slate-900">
+                          August 25, 2026
+                        </p>
+                      </div>
+
+                      <div>
+                        <p className="text-xs text-slate-400">
+                          Time
+                        </p>
+
+                        <p className="mt-1 text-sm font-semibold text-slate-900">
+                          10:30 AM
+                        </p>
+                      </div>
+
+                      <div>
+                        <p className="text-xs text-slate-400">
+                          Type
+                        </p>
+
+                        <p className="mt-1 text-sm font-semibold text-slate-900">
+                          In-person
+                        </p>
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+                <div className="flex gap-3">
+
+                  <button
+                    type="button"
+                    className="rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+                  >
+                    View details
+                  </button>
+
+                  <button
+                    type="button"
+                    className="rounded-xl bg-teal-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
+                  >
+                    Reschedule
+                  </button>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </section>
+
+          {/* Previous Appointments */}
+          <section className="mt-8">
+
+            <h2 className="text-xl font-bold text-slate-900">
+              Previous appointments
+            </h2>
+
+            <div className="mt-5 space-y-4">
+
+              {/* Previous Appointment 1 */}
+              <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+
+                  <div className="flex items-center gap-4">
+
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-100 text-xl">
+                      🩺
+                    </div>
+
+                    <div>
+
+                      <h3 className="font-semibold text-slate-900">
+                        Routine Check-up
+                      </h3>
+
+                      <p className="mt-1 text-sm text-slate-500">
+                        Dr. Rahul Kumar • August 10, 2026
+                      </p>
+
+                    </div>
+
+                  </div>
+
+                  <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
+                    Completed
+                  </span>
+
+                </div>
+
+              </div>
+
+              {/* Previous Appointment 2 */}
+              <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+
+                  <div className="flex items-center gap-4">
+
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-100 text-xl">
+                      🩺
+                    </div>
+
+                    <div>
+
+                      <h3 className="font-semibold text-slate-900">
+                        General Consultation
+                      </h3>
+
+                      <p className="mt-1 text-sm text-slate-500">
+                        Dr. Ananya Sharma • July 28, 2026
+                      </p>
+
+                    </div>
+
+                  </div>
+
+                  <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
+                    Completed
+                  </span>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </section>
+
+          {/* Booking Information */}
+          <section className="mt-8">
+
+            <div className="rounded-2xl border border-teal-100 bg-teal-50 p-6">
+
+              <div className="flex items-start gap-4">
+
+                <div className="text-2xl">
+                  🏥
+                </div>
+
+                <div>
+
+                  <h2 className="font-semibold text-slate-900">
+                    Need a new appointment?
+                  </h2>
+
+                  <p className="mt-1 text-sm leading-6 text-slate-600">
+                    Contact your healthcare provider or VitoCare support
+                    to schedule a new appointment.
                   </p>
 
                 </div>
 
-              )}
-
-            </section>
-
-            {/* Divider */}
-
-            <div className="my-10 border-t border-slate-200" />
-
-            {/* History */}
-
-            <section>
-
-              <div className="mb-5">
-
-                <p className="text-sm font-medium text-slate-500">
-                  Your records
-                </p>
-
-                <h2 className="mt-1 text-xl font-bold text-slate-900">
-                  Appointment history
-                </h2>
-
               </div>
 
-              {pastAppointments.length > 0 ? (
+            </div>
 
-                <div className="space-y-4">
+          </section>
 
-                  {pastAppointments.map(
-                    (appointment) => (
+        </div>
 
-                      <AppointmentCard
-                        key={appointment.id}
-                        id={appointment.id}
-                        doctor={appointment.doctor}
-                        specialty={appointment.specialty}
-                        date={appointment.date}
-                        time={appointment.time}
-                        location={appointment.location}
-                        status={appointment.status}
-                      />
-
-                    )
-                  )}
-
-                </div>
-
-              ) : (
-
-                <div className="rounded-2xl bg-white p-8 text-center text-sm text-slate-500">
-                  No previous appointments.
-                </div>
-
-              )}
-
-            </section>
-
-          </div>
-
-        </main>
-
-      </div>
+      </main>
 
     </div>
   )
