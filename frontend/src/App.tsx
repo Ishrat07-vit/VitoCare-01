@@ -11,7 +11,9 @@ import Footer from './features/landing/Footer'
 
 import LoginPage from './features/auth/pages/LoginPage'
 import RegisterPage from './features/auth/pages/RegisterPage'
+
 import PatientDashboard from './features/patient/pages/PatientDashboard'
+import AppointmentsPage from './features/patient/pages/AppointmentsPage'
 
 function LandingPage() {
   return (
@@ -57,6 +59,11 @@ function App() {
         <Route
           path="/dashboard"
           element={<PatientDashboard />}
+        />
+
+        <Route
+          path="/appointments"
+          element={<AppointmentsPage />}
         />
 
       </Routes>
