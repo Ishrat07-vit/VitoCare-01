@@ -11,6 +11,7 @@ import Footer from './features/landing/Footer'
 
 import LoginPage from './features/auth/pages/LoginPage'
 import RegisterPage from './features/auth/pages/RegisterPage'
+import PatientDashboard from './features/patient/pages/PatientDashboard'
 
 function LandingPage() {
   return (
@@ -51,6 +52,11 @@ function App() {
         <Route
           path="/register"
           element={<RegisterPage />}
+        />
+
+        <Route
+          path="/dashboard"
+          element={<PatientDashboard />}
         />
 
       </Routes>
