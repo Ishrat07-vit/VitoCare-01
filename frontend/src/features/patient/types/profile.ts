@@ -1,13 +1,11 @@
 export interface PatientProfile {
   name: string
-  email: string
-  phone: string
-  dateOfBirth: string
+  age: string
   gender: string
-  bloodGroup: string
+  phone: string
+  email: string
   address: string
+  bloodGroup: string
   emergencyContact: string
-  allergies: string
-  healthConditions: string
-  currentMedicines: string
+  healthCondition: string
 }

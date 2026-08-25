@@ -1,17 +1,15 @@
-export interface PrescriptionMedicine {
-  name: string
-  dosage: string
-  frequency: string
-  duration: string
-}
+export type PrescriptionStatus =
+  | 'Active'
+  | 'Completed'
 
 export interface Prescription {
   id: number
-  doctorName: string
-  specialization: string
+  medicineName: string
+  dosage: string
+  frequency: string
+  duration: string
+  doctor: string
   date: string
-  validUntil: string
-  diagnosis: string
-  medicines: PrescriptionMedicine[]
-  status: 'Active' | 'Expired'
+  instructions: string
+  status: PrescriptionStatus
 }

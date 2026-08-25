@@ -12,6 +12,8 @@ import Footer from './features/landing/Footer'
 import LoginPage from './features/auth/pages/LoginPage'
 import RegisterPage from './features/auth/pages/RegisterPage'
 
+import PatientLayout from './layouts/PatientLayout'
+
 import PatientDashboard from './features/patient/pages/PatientDashboard'
 import AppointmentsPage from './features/patient/pages/AppointmentsPage'
 import MedicinesPage from './features/patient/pages/MedicinesPage'
@@ -68,44 +70,48 @@ function App() {
 
         {/* Patient Portal */}
         <Route
-          path="/dashboard"
-          element={<PatientDashboard />}
-        />
+          element={<PatientLayout />}
+        >
+          <Route
+            path="/dashboard"
+            element={<PatientDashboard />}
+          />
 
-        <Route
-          path="/appointments"
-          element={<AppointmentsPage />}
-        />
+          <Route
+            path="/appointments"
+            element={<AppointmentsPage />}
+          />
 
-        <Route
-          path="/medicines"
-          element={<MedicinesPage />}
-        />
+          <Route
+            path="/medicines"
+            element={<MedicinesPage />}
+          />
 
-        <Route
-          path="/prescriptions"
-          element={<PrescriptionsPage />}
-        />
+          <Route
+            path="/prescriptions"
+            element={<PrescriptionsPage />}
+          />
 
-        <Route
-          path="/volunteers"
-          element={<VolunteersPage />}
-        />
+          <Route
+            path="/volunteers"
+            element={<VolunteersPage />}
+          />
 
-        <Route
-          path="/profile"
-          element={<ProfilePage />}
-        />
+          <Route
+            path="/profile"
+            element={<ProfilePage />}
+          />
 
-        <Route
-          path="/settings"
-          element={<SettingsPage />}
-        />
+          <Route
+            path="/settings"
+            element={<SettingsPage />}
+          />
 
-        <Route
-          path="/notifications"
-          element={<NotificationsPage />}
-        />
+          <Route
+            path="/notifications"
+            element={<NotificationsPage />}
+          />
+        </Route>
 
       </Routes>
 

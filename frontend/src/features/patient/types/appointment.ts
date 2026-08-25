@@ -6,11 +6,11 @@ export type AppointmentStatus =
 
 export interface Appointment {
   id: number
-  doctorName: string
+  doctor: string
   specialty: string
-  hospital: string
   date: string
   time: string
-  type: string
+  location: string
+  reason: string
   status: AppointmentStatus
 }

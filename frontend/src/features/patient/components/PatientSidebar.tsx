@@ -1,143 +1,91 @@
-import { useLocation, useNavigate } from 'react-router-dom'
+import {
+  CalendarDays,
+  FileText,
+  LayoutDashboard,
+  LogOut,
+  Pill,
+  Settings,
+  User,
+  Users,
+} from 'lucide-react'
+
+import { NavLink } from 'react-router-dom'
+
+const navigation = [
+  {
+    name: 'Dashboard',
+    path: '/dashboard',
+    icon: LayoutDashboard,
+    end: true,
+  },
+  {
+    name: 'Appointments',
+    path: '/appointments',
+    icon: CalendarDays,
+  },
+  {
+    name: 'Medicines',
+    path: '/medicines',
+    icon: Pill,
+  },
+  {
+    name: 'Prescriptions',
+    path: '/prescriptions',
+    icon: FileText,
+  },
+  {
+    name: 'Volunteers',
+    path: '/volunteers',
+    icon: Users,
+  },
+  {
+    name: 'Profile',
+    path: '/profile',
+    icon: User,
+  },
+  {
+    name: 'Settings',
+    path: '/settings',
+    icon: Settings,
+  },
+]
 
 function PatientSidebar() {
-  const navigate = useNavigate()
-  const location = useLocation()
-
-  const menuItems = [
-    {
-      icon: '⌂',
-      label: 'Dashboard',
-      path: '/dashboard',
-    },
-    {
-      icon: '📅',
-      label: 'Appointments',
-      path: '/appointments',
-    },
-    {
-      icon: '💊',
-      label: 'Medicines',
-      path: '/medicines',
-    },
-    {
-      icon: '📋',
-      label: 'Prescriptions',
-      path: '/prescriptions',
-    },
-    {
-      icon: '🤝',
-      label: 'Volunteers',
-      path: '/volunteers',
-    },
-    {
-      icon: '👤',
-      label: 'My Profile',
-      path: '/profile',
-    },
-  ]
-
   return (
-    <aside className="hidden w-64 shrink-0 border-r border-slate-200 bg-white lg:flex lg:flex-col">
-
-      {/* Logo */}
-      <div className="flex h-20 items-center border-b border-slate-100 px-6">
-
-        <button
-          type="button"
-          onClick={() => navigate('/dashboard')}
-          className="text-left"
-        >
-
-          <h1 className="text-2xl font-bold text-teal-700">
-            VitoCare
-          </h1>
-
-          <p className="text-xs text-slate-400">
-            Patient Portal
-          </p>
-
-        </button>
-
-      </div>
-
-      {/* Navigation */}
-      <nav className="flex-1 space-y-2 p-4">
-
-        {menuItems.map((item) => {
-
-          const active = location.pathname === item.path
+    <aside className="flex min-h-[calc(100vh-4rem)] w-64 flex-col border-r bg-white">
+      
+      <nav className="flex-1 space-y-1 p-4">
+        {navigation.map((item) => {
+          const Icon = item.icon
 
           return (
-            <button
-              key={item.path}
-              type="button"
-              onClick={() => navigate(item.path)}
-              className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-all ${
-                active
-                  ? 'bg-teal-50 text-teal-700'
-                  : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
-              }`}
+            <NavLink
+              key={item.name}
+              to={item.path}
+              end={item.end}
+              className={({ isActive }) =>
+                `flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition ${
+                  isActive
+                    ? 'bg-green-100 text-green-700'
+                    : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                }`
+              }
             >
-
-              <span
-                className={`flex h-8 w-8 items-center justify-center rounded-lg text-base shadow-sm ${
-                  active
-                    ? 'bg-white'
-                    : 'bg-white'
-                }`}
-              >
-                {item.icon}
-              </span>
-
-              {item.label}
-
-            </button>
+              <Icon size={20} />
+              <span>{item.name}</span>
+            </NavLink>
           )
         })}
-
       </nav>
 
-      {/* Bottom */}
-      <div className="border-t border-slate-100 p-4">
-
-        {/* Notifications */}
+      <div className="border-t p-4">
         <button
           type="button"
-          onClick={() => navigate('/notifications')}
-          className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition ${
-            location.pathname === '/notifications'
-              ? 'bg-teal-50 text-teal-700'
-              : 'text-slate-600 hover:bg-slate-50'
-          }`}
+          className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-red-600 hover:bg-red-50"
         >
-          <span>🔔</span>
-          Notifications
+          <LogOut size={20} />
+          <span>Logout</span>
         </button>
-
-        {/* Settings */}
-        <button
-          type="button"
-          onClick={() => navigate('/settings')}
-          className={`mt-2 flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition ${
-            location.pathname === '/settings'
-              ? 'bg-teal-50 text-teal-700'
-              : 'text-slate-600 hover:bg-slate-50'
-          }`}
-        >
-          <span>⚙️</span>
-          Settings
-        </button>
-
-        {/* Sign out */}
-        <button
-          type="button"
-          className="mt-2 flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-red-500 transition hover:bg-red-50"
-        >
-          <span>↪</span>
-          Sign out
-        </button>
-
       </div>
 
     </aside>
